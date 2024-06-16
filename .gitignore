@@ -6,5 +6,5 @@ projects/model_controllers/
 __pycache__/
 
 
-
+# to ignore environmental variables
 .env
