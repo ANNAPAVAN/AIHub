@@ -1,0 +1,6 @@
+# Ignore the entire model_controllers directory
+projects/model_controllers/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/

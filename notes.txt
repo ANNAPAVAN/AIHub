@@ -1,0 +1,13 @@
+PS E:\NN_Projects\All_In_One> python
+Python 3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+
+>>> from projects import app,db
+>>> app.app_context().push()
+>>> db.create_all()
+>>> from projects import User
+>>> u1 = User(username="abcdef",email="x@gmail.com",password_hash='abcdef') 
+>>> db.session.add(u1)   
+>>> db.session.commit()                                               
+>>> User.query.all()
+[<User 1>]
