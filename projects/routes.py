@@ -1,11 +1,11 @@
 from projects import app,db  
-from flask import Flask, render_template, request, redirect, url_for, flash # type: ignore
+from flask import Flask, render_template, request, redirect, url_for, flash,jsonify # type: ignore
 from projects.forms import RegisterForm, LoginForm
 from projects.models import User
 from flask_login import login_user, logout_user, login_required # type: ignore
 
-# Import cat_dog related functions
 from projects.cat_and_dog import upload_image, predict_image
+from projects.movie_rec import recommand, movies
 
 app.config['UPLOAD_FOLDER'] = './static/images'  # Define your upload folder
 
@@ -75,6 +75,22 @@ def predict_catdog(filename):
     return render_template('cat_dog/result.html', prediction=prediction_label)
 
 # ------------------------------------------------------------------------------------------------
+
+
+@app.route('/movies')
+@login_required
+def movies_home():
+    return render_template('movie/recommand.html', movies=movies['title'].values)
+
+@app.route('/recommend', methods=['POST'])
+def recommend():
+    movie_name = request.form['movie_name']
+    recommendations = recommand(movie_name)
+    return jsonify(recommendations)
+
+
+
+
 
 
 

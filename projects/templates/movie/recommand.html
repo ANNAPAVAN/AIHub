@@ -1,0 +1,52 @@
+{% extends './base.html' %}
+
+{% block title %}
+    Movie Recommender System
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Movie Recommender System</h1>
+    <form id="movieForm">
+        <div class="form-group">
+            <label for="movie_name">Movie Name</label>
+            <select class="form-control" id="movie_name" name="movie_name">
+                {% for movie in movies %}
+                    <option value="{{ movie }}">{{ movie }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Recommend</button>
+    </form>
+    <div class="mt-5" id="recommendations"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('movieForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var movie_name = document.getElementById('movie_name').value;
+            
+            fetch('/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'movie_name': movie_name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var recommendations = '<h3>Recommendations:</h3><ul>';
+                for (var i in data) {
+                    recommendations += '<li>' + data[i] + '</li>';
+                }
+                recommendations += '</ul>';
+                document.getElementById('recommendations').innerHTML = recommendations;
+            })
+            .catch(error => console.error('Fetch Error:', error));
+        });
+    });
+</script>
+{% endblock %}

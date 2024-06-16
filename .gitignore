@@ -4,3 +4,7 @@ projects/model_controllers/
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+
+
+
+.env

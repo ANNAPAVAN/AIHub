@@ -1,12 +1,14 @@
 from flask import Flask # type: ignore
 from flask_sqlalchemy import SQLAlchemy # type: ignore
 from flask_login import LoginManager # type: ignore
+from dotenv import load_dotenv
+import os
 
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projects.db'
-app.config['SECRET_KEY'] = 'defdb7ada5971bb866f659b3'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 db = SQLAlchemy(app)
 
