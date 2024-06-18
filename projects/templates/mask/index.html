@@ -5,26 +5,23 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Upload an Image</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="upload-file" onchange="previewImage(event)">
+    <h1>Upload an Image to Detect Mask</h1>
+    <form action="/upload_photo" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="upload-file">
         <br><br>
-      
 
-    <!-- Image preview container -->
-    <div id="image-preview-container" style="display: none;">
-        <h3>Selected Image:</h3>
-        <img id="image-preview" src="#" alt="Selected Image" style="max-width: 500px;">
-    </div>
-    <br><br>
+        <!-- Image preview container -->
+        <div id="image-preview-container" style="display: none;">
+            <h3>Selected Image:</h3>
+            <img id="image-preview" src="#" alt="Selected Image" style="max-width: 500px;">
+        </div>
+        <br><br>
         <input type="submit" value="Upload">
     </form>
 
-
-    
     <script>
         // Function to preview selected image
-        function previewImage(event) {
+        document.getElementById('upload-file').addEventListener('change', function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
 
@@ -37,6 +34,6 @@
             if (file) {
                 reader.readAsDataURL(file);
             }
-        }
+        });
     </script>
 {% endblock %}

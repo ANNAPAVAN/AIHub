@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, login_required # type: ignore
 
 from projects.cat_and_dog import upload_image, predict_image
 from projects.movie_rec import recommand, movies
+from projects.mask_detector import mask_predict
 
 app.config['UPLOAD_FOLDER'] = './static/images'  # Define your upload folder
 
@@ -88,8 +89,28 @@ def recommend():
     recommendations = recommand(movie_name)
     return jsonify(recommendations)
 
+# --------------------------------------------------------------------------------------------------
 
 
+@app.route('/mask')
+@login_required
+def mask_home():
+    return render_template('mask/index.html')
+
+@app.route('/upload_photo', methods=['POST'])
+def upload_photo_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        filename = upload_image(file)
+        if filename:
+            return redirect(url_for('predict_mask', filename=filename))
+        flash('Error uploading file', category='danger')
+    return redirect(url_for('mask_home'))
+
+@app.route('/predict_mask/<filename>')
+def predict_mask(filename):
+    prediction_label = mask_predict(filename)
+    return render_template('mask/result.html', prediction=prediction_label)
 
 
 
